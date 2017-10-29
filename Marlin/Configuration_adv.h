@@ -1252,7 +1252,7 @@
  *
  * M200 D0 to disable, M200 Dn to set a new diameter.
  */
-#define VOLUMETRIC_DEFAULT_ON
+//#define VOLUMETRIC_DEFAULT_ON
 
 /**
  * Enable this option for a leaner build of Marlin that removes all
