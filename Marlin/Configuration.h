@@ -370,9 +370,9 @@
   //#define  DEFAULT_Kd 440
 
   // TEVO Tarantula Custom PID Settings - Hotend
-  #define DEFAULT_Kp 11.72
-  #define DEFAULT_Ki 0.60
-  #define DEFAULT_Kd 57.12
+  #define DEFAULT_Kp 13.58
+  #define DEFAULT_Ki 0.82
+  #define DEFAULT_Kd 56.19
 
 #endif // PIDTEMP
 
@@ -415,9 +415,9 @@
   //#define  DEFAULT_bedKd 1675.16
 
   // TEVO Tarantula Custom PID Settings - Heatbed
-  #define DEFAULT_bedKp 828.69
-  #define DEFAULT_bedKi 162.12
-  #define DEFAULT_bedKd 1058.97
+  #define DEFAULT_bedKp 399.83
+  #define DEFAULT_bedKi 62.58
+  #define DEFAULT_bedKd 683.68
 
   // FIND YOUR OWN: "M303 E-1 C8 S90" to run autotune on the bed at 90 degreesC for 8 cycles.
 #endif // PIDTEMPBED
@@ -539,7 +539,9 @@
  * Override with M92
  *                                      X, Y, Z, E0 [, E1[, E2[, E3[, E4]]]]
  */
-#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80.2609, 80.2609, 1600, 94.0000 }
+// 1.8 deg motors, 16 usteps, 2mm belt pitch, 20 tooth pully, 2mm screw pitch
+// https://www.prusaprinters.org/calculator/
+#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 1600, 94.0000 }
 
 /**
  * Default Max Feed Rate (mm/s)
