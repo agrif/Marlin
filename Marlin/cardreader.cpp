@@ -626,13 +626,14 @@ void CardReader::chdir(const char * relpath) {
   }
 }
 
-void CardReader::updir() {
-  if (workDirDepth > 0) {                                           // At least 1 dir has been saved
-    workDir = --workDirDepth ? workDirParents[workDirDepth] : root; // Use parent, or root if none
+int8_t CardReader::updir() {
+  if (workDirDepth > 0) {                                               // At least 1 dir has been saved
+    workDir = --workDirDepth ? workDirParents[workDirDepth - 1] : root; // Use parent, or root if none
     #if ENABLED(SDCARD_SORT_ALPHA)
       presort();
     #endif
   }
+  return workDirDepth;
 }
 
 #if ENABLED(SDCARD_SORT_ALPHA)
@@ -890,8 +891,9 @@ void CardReader::printingHasFinished() {
   }
   else {
     sdprinting = false;
-    if (SD_FINISHED_STEPPERRELEASE)
-      enqueue_and_echo_commands_P(PSTR(SD_FINISHED_RELEASECOMMAND));
+    #if ENABLED(SD_FINISHED_STEPPERRELEASE) && defined(SD_FINISHED_RELEASECOMMAND)
+      stepper.cleaning_buffer_counter = 1; // The command will fire from the Stepper ISR
+    #endif
     print_job_timer.stop();
     if (print_job_timer.duration() > 60)
       enqueue_and_echo_commands_P(PSTR("M31"));

@@ -210,6 +210,7 @@ inline void refresh_cmd_timeout() { previous_cmd_ms = millis(); }
 /**
  * Feedrate scaling and conversion
  */
+extern float feedrate_mm_s;
 extern int16_t feedrate_percentage;
 
 #define MMS_SCALED(MM_S) ((MM_S)*feedrate_percentage*0.01)
@@ -223,7 +224,7 @@ extern volatile bool wait_for_heatup;
   extern volatile bool wait_for_user;
 #endif
 
-extern float current_position[NUM_AXIS];
+extern float current_position[XYZE], destination[XYZE];
 
 // Workspace offsets
 #if HAS_WORKSPACE_OFFSET
@@ -301,14 +302,57 @@ void report_current_position();
   extern float delta_height,
                delta_endstop_adj[ABC],
                delta_radius,
+               delta_tower_angle_trim[ABC],
+               delta_tower[ABC][2],
                delta_diagonal_rod,
                delta_calibration_radius,
+               delta_diagonal_rod_2_tower[ABC],
                delta_segments_per_second,
-               delta_tower_angle_trim[ABC],
                delta_clip_start_height;
+
   void recalc_delta_settings();
+  float delta_safe_distance_from_top();
+
+  #if ENABLED(DELTA_FAST_SQRT)
+    float Q_rsqrt(const float number);
+    #define _SQRT(n) (1.0f / Q_rsqrt(n))
+  #else
+    #define _SQRT(n) SQRT(n)
+  #endif
+
+  // Macro to obtain the Z position of an individual tower
+  #define DELTA_Z(V,T) V[Z_AXIS] + _SQRT(   \
+    delta_diagonal_rod_2_tower[T] - HYPOT2( \
+        delta_tower[T][X_AXIS] - V[X_AXIS], \
+        delta_tower[T][Y_AXIS] - V[Y_AXIS]  \
+      )                                     \
+    )
+
+  #define DELTA_IK(V) do {        \
+    delta[A_AXIS] = DELTA_Z(V, A_AXIS); \
+    delta[B_AXIS] = DELTA_Z(V, B_AXIS); \
+    delta[C_AXIS] = DELTA_Z(V, C_AXIS); \
+  }while(0)
+
 #elif IS_SCARA
   void forward_kinematics_SCARA(const float &a, const float &b);
+#endif
+
+#if ENABLED(G26_MESH_VALIDATION)
+  extern bool g26_debug_flag;
+#elif ENABLED(AUTO_BED_LEVELING_UBL)
+  constexpr bool g26_debug_flag = false;
+#endif
+
+#if ENABLED(AUTO_BED_LEVELING_BILINEAR)
+  #define _GET_MESH_X(I) (bilinear_start[X_AXIS] + (I) * bilinear_grid_spacing[X_AXIS])
+  #define _GET_MESH_Y(J) (bilinear_start[Y_AXIS] + (J) * bilinear_grid_spacing[Y_AXIS])
+#elif ENABLED(AUTO_BED_LEVELING_UBL)
+  #define _GET_MESH_X(I) ubl.mesh_index_to_xpos(I)
+  #define _GET_MESH_Y(J) ubl.mesh_index_to_ypos(J)
+#elif ENABLED(MESH_BED_LEVELING)
+  #define _GET_MESH_X(I) mbl.index_to_xpos[I]
+  #define _GET_MESH_Y(J) mbl.index_to_ypos[J]
 #endif
 
 #if ENABLED(AUTO_BED_LEVELING_BILINEAR)
@@ -330,7 +374,7 @@ void report_current_position();
 #endif
 
 #if ENABLED(ENABLE_LEVELING_FADE_HEIGHT)
-  void set_z_fade_height(const float zfh);
+  void set_z_fade_height(const float zfh, const bool do_report=true);
 #endif
 
 #if ENABLED(X_DUAL_ENDSTOPS)
@@ -379,9 +423,9 @@ void report_current_position();
   extern bool filament_sensor;         // Flag that filament sensor readings should control extrusion
   extern float filament_width_nominal, // Theoretical filament diameter i.e., 3.00 or 1.75
                filament_width_meas;    // Measured filament diameter
-  extern uint8_t meas_delay_cm,        // Delay distance
-                 measurement_delay[];  // Ring buffer to delay measurement
-  extern int8_t filwidth_delay_index[2]; // Ring buffer indexes. Used by planner, temperature, and main code
+  extern uint8_t meas_delay_cm;        // Delay distance
+  extern int8_t measurement_delay[MAX_MEASUREMENT_DELAY + 1],  // Ring buffer to delay measurement
+                filwidth_delay_index[2]; // Ring buffer indexes. Used by planner, temperature, and main code
 #endif
 
 #if ENABLED(ADVANCED_PAUSE_FEATURE)
@@ -414,13 +458,13 @@ void report_current_position();
 // Handling multiple extruders pins
 extern uint8_t active_extruder;
 
-#if HAS_TEMP_HOTEND || HAS_TEMP_BED
-  void print_heaterstates();
-#endif
-
 #if ENABLED(MIXING_EXTRUDER)
   extern float mixing_factor[MIXING_STEPPERS];
 #endif
+
+inline void set_current_from_destination() { COPY(current_position, destination); }
+inline void set_destination_from_current() { COPY(destination, current_position); }
+void prepare_move_to_destination();
 
 /**
  * Blocking movement and shorthand functions
