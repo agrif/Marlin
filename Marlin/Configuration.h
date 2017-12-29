@@ -541,7 +541,9 @@
  */
 // 1.8 deg motors, 16 usteps, 2mm belt pitch, 20 tooth pully, 2mm screw pitch
 // https://www.prusaprinters.org/calculator/
-#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 1600, 94.0000 }
+// then: 10.95 diameter grub screw at 1.8 deg:
+// (16 * 360 / 1.8) / (10.95 * pi) = 93.022
+#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 1600, 93.022 }
 
 /**
  * Default Max Feed Rate (mm/s)
