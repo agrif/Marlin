@@ -3449,7 +3449,10 @@ inline void gcode_G4() {
   inline void gcode_G10() {
     #if EXTRUDERS > 1
       const bool rs = parser.boolval('S');
-      fwretract.retracted_swap[active_extruder] = rs; // Use 'S' for swap, default to false
+      // without this commented out, G10 S1 does *nothing*
+      // see https://github.com/MarlinFirmware/Marlin/issues/9812
+      // -Aaron Griffith, March 2, 2018
+      //fwretract.retracted_swap[active_extruder] = rs; // Use 'S' for swap, default to false
     #endif
     fwretract.retract(true
       #if EXTRUDERS > 1
