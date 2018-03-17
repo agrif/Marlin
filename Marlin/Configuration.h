@@ -384,9 +384,10 @@
   //#define  DEFAULT_Kd 440
 
   // TEVO Tarantula Custom PID Settings - Hotend
-  #define DEFAULT_Kp 13.58
-  #define DEFAULT_Ki 0.82
-  #define DEFAULT_Kd 56.19
+  // with titanium kraken heatbreaks
+  #define DEFAULT_Kp 19.11
+  #define DEFAULT_Ki 1.50
+  #define DEFAULT_Kd 60.65
 
 #endif // PIDTEMP
 
@@ -429,9 +430,9 @@
   //#define  DEFAULT_bedKd 1675.16
 
   // TEVO Tarantula Custom PID Settings - Heatbed
-  #define DEFAULT_bedKp 399.83
-  #define DEFAULT_bedKi 62.58
-  #define DEFAULT_bedKd 683.68
+  #define DEFAULT_bedKp 370.80
+  #define DEFAULT_bedKi 64.66
+  #define DEFAULT_bedKd 531.58
 
   // FIND YOUR OWN: "M303 E-1 C8 S90" to run autotune on the bed at 90 degreesC for 8 cycles.
 #endif // PIDTEMPBED
