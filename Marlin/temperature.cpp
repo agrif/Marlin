@@ -925,8 +925,7 @@ void Temperature::manage_heater() {
 #define SCAN_THERMISTOR_TABLE(TBL,LEN) do{                             \
   uint8_t l = 0, r = LEN, m;                                           \
   for (;;) {                                                           \
-    /* see https://github.com/MarlinFirmware/Marlin/issues/11220 */    \
-    m = l + ((r - l) >> 1);                                            \
+    m = (l + r) >> 1;                                                  \
     if (m == l || m == r) return (short)pgm_read_word(&TBL[LEN-1][1]); \
     short v00 = pgm_read_word(&TBL[m-1][0]),                           \
           v10 = pgm_read_word(&TBL[m-0][0]);                           \

@@ -204,8 +204,7 @@
 #endif
 
 // The SCAN_THERMISTOR_TABLE macro needs alteration?
-// see https://github.com/MarlinFirmware/Marlin/issues/11220
-static_assert(HEATER_0_TEMPTABLE_LEN < 256 && HEATER_1_TEMPTABLE_LEN < 256 && HEATER_2_TEMPTABLE_LEN < 256 && HEATER_3_TEMPTABLE_LEN < 256 && HEATER_4_TEMPTABLE_LEN < 256 && BEDTEMPTABLE_LEN < 256 && CHAMBERTEMPTABLE_LEN < 256,
+static_assert(HEATER_0_TEMPTABLE_LEN < 128 && HEATER_1_TEMPTABLE_LEN < 128 && HEATER_2_TEMPTABLE_LEN < 128 && HEATER_3_TEMPTABLE_LEN < 128 && HEATER_4_TEMPTABLE_LEN < 128 && BEDTEMPTABLE_LEN < 128 && CHAMBERTEMPTABLE_LEN < 128,
   "Temperature conversion tables over 127 entries need special consideration."
 );
 
