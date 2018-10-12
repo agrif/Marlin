@@ -767,7 +767,7 @@
  */
 #define LIN_ADVANCE
 #if ENABLED(LIN_ADVANCE)
-  #define LIN_ADVANCE_K 1.0   // Unit: mm compression per 1mm/s extruder speed
+  #define LIN_ADVANCE_K 0.0   // Unit: mm compression per 1mm/s extruder speed
   //#define LA_DEBUG          // If enabled, this will generate debug information output over USB.
 #endif
 
@@ -934,9 +934,9 @@
 #if ENABLED(FWRETRACT)
   #define MIN_AUTORETRACT 0.1             // When auto-retract is on, convert E moves of this length and over
   #define MAX_AUTORETRACT 10.0            // Upper limit for auto-retract conversion
-  #define RETRACT_LENGTH 2                // Default retract length (positive mm)
-  #define RETRACT_LENGTH_SWAP 4           // Default swap retract length (positive mm), for extruder change
-  #define RETRACT_FEEDRATE 16             // Default feedrate for retracting (mm/s)
+  #define RETRACT_LENGTH 4                // Default retract length (positive mm)
+  #define RETRACT_LENGTH_SWAP 7           // Default swap retract length (positive mm), for extruder change
+  #define RETRACT_FEEDRATE 45             // Default feedrate for retracting (mm/s)
   #define RETRACT_ZLIFT 0.2               // Default retract Z-lift
   #define RETRACT_RECOVER_LENGTH 0        // Default additional recover length (mm, added to retract length when recovering)
   #define RETRACT_RECOVER_LENGTH_SWAP 0   // Default additional swap recover length (mm, added to retract length when recovering from extruder change)
