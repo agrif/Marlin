@@ -439,10 +439,20 @@
  */
 #if ENABLED(DISTINCT_E_FACTORS) && E_STEPPERS > 1
   #define XYZE_N (XYZ + E_STEPPERS)
+  #if ENABLED(HANGPRINTER)
+    #define NUM_AXIS_N (ABCD + E_STEPPERS)
+  #else
+    #define NUM_AXIS_N (XYZ + E_STEPPERS)
+  #endif
   #define E_AXIS_N (E_AXIS + extruder)
 #else
   #undef DISTINCT_E_FACTORS
   #define XYZE_N XYZE
+  #if ENABLED(HANGPRINTER)
+    #define NUM_AXIS_N ABCDE
+  #else
+    #define NUM_AXIS_N XYZE
+  #endif
   #define E_AXIS_N E_AXIS
 #endif
 
@@ -496,7 +506,7 @@
  * Set flags for enabled probes
  */
 #define HAS_BED_PROBE (ENABLED(FIX_MOUNTED_PROBE) || ENABLED(Z_PROBE_ALLEN_KEY) || HAS_Z_SERVO_PROBE || ENABLED(Z_PROBE_SLED) || ENABLED(SOLENOID_PROBE))
-#define PROBE_SELECTED (HAS_BED_PROBE || ENABLED(PROBE_MANUALLY))
+#define PROBE_SELECTED (HAS_BED_PROBE || ENABLED(PROBE_MANUALLY) || ENABLED(MESH_BED_LEVELING))
 
 #if !HAS_BED_PROBE
   // Clear probe pin settings when no probe is selected
