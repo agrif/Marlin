@@ -1082,14 +1082,14 @@
     #define MIN_AUTORETRACT 0.1           // When auto-retract is on, convert E moves of this length and over
     #define MAX_AUTORETRACT 10.0          // Upper limit for auto-retract conversion
   #endif
-  #define RETRACT_LENGTH 3                // Default retract length (positive mm)
+  #define RETRACT_LENGTH 5                // Default retract length (positive mm)
   #define RETRACT_LENGTH_SWAP 7           // Default swap retract length (positive mm), for extruder change
-  #define RETRACT_FEEDRATE 50             // Default feedrate for retracting (mm/s)
+  #define RETRACT_FEEDRATE 80             // Default feedrate for retracting (mm/s)
   #define RETRACT_ZRAISE 0.2              // Default retract Z-raise (mm)
   #define RETRACT_RECOVER_LENGTH 0        // Default additional recover length (mm, added to retract length when recovering)
   #define RETRACT_RECOVER_LENGTH_SWAP 0   // Default additional swap recover length (mm, added to retract length when recovering from extruder change)
-  #define RETRACT_RECOVER_FEEDRATE 30     // Default feedrate for recovering from retraction (mm/s)
-  #define RETRACT_RECOVER_FEEDRATE_SWAP 30// Default feedrate for recovering from swap retraction (mm/s)
+  #define RETRACT_RECOVER_FEEDRATE 60     // Default feedrate for recovering from retraction (mm/s)
+  #define RETRACT_RECOVER_FEEDRATE_SWAP 60// Default feedrate for recovering from swap retraction (mm/s)
   #if ENABLED(MIXING_EXTRUDER)
     //#define RETRACT_SYNC_MIXING         // Retract and restore all mixing steppers simultaneously
   #endif
