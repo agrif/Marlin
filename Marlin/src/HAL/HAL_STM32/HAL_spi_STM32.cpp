@@ -20,17 +20,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-#ifdef ARDUINO_ARCH_STM32
+#if defined(ARDUINO_ARCH_STM32) && !defined(STM32GENERIC)
+
 
 // --------------------------------------------------------------------------
 // Includes
 // --------------------------------------------------------------------------
 
-#include "HAL.h"
-#include "../shared/HAL_SPI.h"
-#include "pins_arduino.h"
-#include "spi_pins.h"
-#include "../../core/macros.h"
+#include "../../inc/MarlinConfig.h"
 
 #include <SPI.h>
 

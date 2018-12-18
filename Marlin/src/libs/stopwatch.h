@@ -19,9 +19,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
-#ifndef STOPWATCH_H
-#define STOPWATCH_H
+#pragma once
 
 // Print debug messages with M111 S2 (Uses 156 bytes of PROGMEM)
 //#define DEBUG_STOPWATCH
@@ -77,7 +75,7 @@ class Stopwatch {
      * @brief Resume the stopwatch
      * @details Resume a timer from a given duration
      */
-    static void resume(const millis_t duration);
+    static void resume(const millis_t with_time);
 
     /**
      * @brief Reset the stopwatch
@@ -116,5 +114,3 @@ class Stopwatch {
 
     #endif
 };
-
-#endif // STOPWATCH_H
