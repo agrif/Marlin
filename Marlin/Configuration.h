@@ -661,7 +661,7 @@
  * Override with M203
  *                                      X, Y, Z, E0 [, E1[, E2[, E3[, E4[, E5]]]]]
  */
-#define DEFAULT_MAX_FEEDRATE          { 300, 300, 7, 50 }
+#define DEFAULT_MAX_FEEDRATE          { 300, 300, 7, 80 }
 
 /**
  * Default Max Acceleration (change/s) change = mm/s
@@ -669,7 +669,7 @@
  * Override with M201
  *                                      X, Y, Z, E0 [, E1[, E2[, E3[, E4[, E5]]]]]
  */
-#define DEFAULT_MAX_ACCELERATION      { 500, 500, 50, 500 }
+#define DEFAULT_MAX_ACCELERATION      { 1000, 1000, 50, 1000 }
 
 /**
  * Default Acceleration (change/s) change = mm/s
@@ -679,9 +679,9 @@
  *   M204 R    Retract Acceleration
  *   M204 T    Travel Acceleration
  */
-#define DEFAULT_ACCELERATION          500     // X, Y, Z and E acceleration for printing moves
-#define DEFAULT_RETRACT_ACCELERATION  500     // E acceleration for retracts
-#define DEFAULT_TRAVEL_ACCELERATION   500     // X, Y, Z acceleration for travel (non printing) moves
+#define DEFAULT_ACCELERATION          1000     // X, Y, Z and E acceleration for printing moves
+#define DEFAULT_RETRACT_ACCELERATION  1000     // E acceleration for retracts
+#define DEFAULT_TRAVEL_ACCELERATION   1000     // X, Y, Z acceleration for travel (non printing) moves
 
 /**
  * Default Jerk (mm/s)
@@ -691,10 +691,10 @@
  * When changing speed and direction, if the difference is less than the
  * value set here, it may happen instantaneously.
  */
-#define DEFAULT_XJERK                  4.0
+#define DEFAULT_XJERK                  10.0
 #define DEFAULT_YJERK                  7.0
 #define DEFAULT_ZJERK                  0.2
-#define DEFAULT_EJERK                  6.0
+#define DEFAULT_EJERK                  2.5
 
 /**
  * S-Curve Acceleration
