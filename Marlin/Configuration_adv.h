@@ -1137,7 +1137,7 @@
   #define RETRACT_LENGTH 3                // Default retract length (positive mm)
   #define RETRACT_LENGTH_SWAP 5           // Default swap retract length (positive mm), for extruder change
   #define RETRACT_FEEDRATE 80             // Default feedrate for retracting (mm/s)
-  #define RETRACT_ZRAISE 0.4              // Default retract Z-raise (mm)
+  #define RETRACT_ZRAISE 0.2              // Default retract Z-raise (mm)
   #define RETRACT_RECOVER_LENGTH 0        // Default additional recover length (mm, added to retract length when recovering)
   #define RETRACT_RECOVER_LENGTH_SWAP 0   // Default additional swap recover length (mm, added to retract length when recovering from extruder change)
   #define RETRACT_RECOVER_FEEDRATE 60     // Default feedrate for recovering from retraction (mm/s)
