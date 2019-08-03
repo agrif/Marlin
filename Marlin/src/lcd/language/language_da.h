@@ -1,9 +1,9 @@
 /**
  * Marlin 3D Printer Firmware
- * Copyright (C) 2016 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
+ * Copyright (c) 2019 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
  *
  * Based on Sprinter and grbl.
- * Copyright (C) 2011 Camiel Gubbels / Erik van der Zalm
+ * Copyright (c) 2011 Camiel Gubbels / Erik van der Zalm
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -43,7 +43,6 @@
 #define MSG_AUTO_HOME_X                     _UxGT("Home X")
 #define MSG_AUTO_HOME_Y                     _UxGT("Home Y")
 #define MSG_AUTO_HOME_Z                     _UxGT("Home Z")
-#define MSG_TMC_Z_CALIBRATION               _UxGT("Kalibrer Z")
 #define MSG_LEVEL_BED_HOMING                _UxGT("Homing XYZ")
 #define MSG_LEVEL_BED_WAITING               _UxGT("Klik når du er klar")
 #define MSG_LEVEL_BED_NEXT_POINT            _UxGT("Næste punkt")
@@ -73,6 +72,7 @@
 #define MSG_MOVE_Y                          _UxGT("Flyt Y")
 #define MSG_MOVE_Z                          _UxGT("Flyt Z")
 #define MSG_MOVE_E                          _UxGT("Extruder")
+#define MSG_MOVE_Z_DIST                     _UxGT("Flyt %smm")
 #define MSG_MOVE_01MM                       _UxGT("Flyt 0.1mm")
 #define MSG_MOVE_1MM                        _UxGT("Flyt 1mm")
 #define MSG_MOVE_10MM                       _UxGT("Flyt 10mm")

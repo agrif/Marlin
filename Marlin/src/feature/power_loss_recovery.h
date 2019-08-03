@@ -1,9 +1,9 @@
 /**
  * Marlin 3D Printer Firmware
- * Copyright (C) 2016 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
+ * Copyright (c) 2019 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
  *
  * Based on Sprinter and grbl.
- * Copyright (C) 2011 Camiel Gubbels / Erik van der Zalm
+ * Copyright (c) 2011 Camiel Gubbels / Erik van der Zalm
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,9 +28,13 @@
 #include "../sd/cardreader.h"
 #include "../inc/MarlinConfigPre.h"
 
-#define SAVE_INFO_INTERVAL_MS 0
-//#define SAVE_EACH_CMD_MODE
+#if ENABLED(MIXING_EXTRUDER)
+  #include "../feature/mixing.h"
+#endif
+
 //#define DEBUG_POWER_LOSS_RECOVERY
+//#define SAVE_EACH_CMD_MODE
+//#define SAVE_INFO_INTERVAL_MS 0
 
 typedef struct {
   uint8_t valid_head;
@@ -38,10 +42,17 @@ typedef struct {
   // Machine state
   float current_position[NUM_AXIS];
 
+  #if HAS_HOME_OFFSET
+    float home_offset[XYZ];
+  #endif
+  #if HAS_POSITION_SHIFT
+    float position_shift[XYZ];
+  #endif
+
   uint16_t feedrate;
 
-  #if HOTENDS > 1
-    uint8_t active_hotend;
+  #if EXTRUDERS > 1
+    uint8_t active_extruder;
   #endif
 
   int16_t target_temperature[HOTENDS];
@@ -63,9 +74,21 @@ typedef struct {
     float retract[EXTRUDERS], retract_hop;
   #endif
 
+  // Mixing extruder and gradient
+  #if ENABLED(MIXING_EXTRUDER)
+    //uint_fast8_t selected_vtool;
+    //mixer_comp_t color[NR_MIXING_VIRTUAL_TOOLS][MIXING_STEPPERS];
+    #if ENABLED(GRADIENT_MIX)
+      gradient_t gradient;
+    #endif
+  #endif
+
+  // Relative mode
+  bool relative_mode, relative_modes_e;
+
   // Command queue
-  uint8_t commands_in_queue, cmd_queue_index_r;
-  char command_queue[BUFSIZE][MAX_CMD_SIZE];
+  uint8_t queue_length, queue_index_r;
+  char queue_buffer[BUFSIZE][MAX_CMD_SIZE];
 
   // SD Filename and position
   char sd_filename[MAXPATHNAMELENGTH];
@@ -80,6 +103,8 @@ typedef struct {
 
 class PrintJobRecovery {
   public:
+    static const char filename[5];
+
     static SdFile file;
     static job_recovery_info_t info;
 
@@ -109,9 +134,11 @@ class PrintJobRecovery {
 
   static inline bool valid() { return info.valid_head && info.valid_head == info.valid_foot; }
 
-    #if ENABLED(DEBUG_POWER_LOSS_RECOVERY)
-      static void debug(PGM_P const prefix);
-    #endif
+  #if ENABLED(DEBUG_POWER_LOSS_RECOVERY)
+    static void debug(PGM_P const prefix);
+  #else
+    static inline void debug(PGM_P const prefix) { UNUSED(prefix); }
+  #endif
 
   private:
     static void write();
